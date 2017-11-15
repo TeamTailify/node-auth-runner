@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var UsernamePasswordAuthConfig = /** @class */ (function () {
     function UsernamePasswordAuthConfig(parameters) {
         this._username = parameters.username;
@@ -28,3 +29,4 @@ var UsernamePasswordAuthConfig = /** @class */ (function () {
     });
     return UsernamePasswordAuthConfig;
 }());
+exports.UsernamePasswordAuthConfig = UsernamePasswordAuthConfig;

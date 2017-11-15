@@ -1,17 +1,5 @@
 
-class UsernamePasswordAuthConfig {
-    get username(): string {
-        return this._username;
-    }
-
-    get password(): string {
-        return this._password;
-    }
-
-    get endpoint(): string {
-        return this._endpoint;
-    }
-
+export class UsernamePasswordAuthConfig {
     private _username: string;
     private _password: string;
     private _endpoint: string;
@@ -24,5 +12,19 @@ class UsernamePasswordAuthConfig {
         this._endpoint = parameters.endpoint;
 
     }
+
+
+    get username(): string {
+        return this._username;
+    }
+
+    get password(): string {
+        return this._password;
+    }
+
+    get endpoint(): string {
+        return this._endpoint;
+    }
+
 
 }

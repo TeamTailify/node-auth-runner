@@ -1,7 +1,11 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var authRunner = require("./runner/AuthRunner");
+var inMemoryAuthStore = require("./authStore/InMemoryAuthStore");
+var usernamePasswordAuthStore = require("./authStore/UsernamePasswordAuthStore");
 exports.getToken = function (usernamePasswordConfig, inMemoryStoreConfig) {
-    var usernamePasswordAuthStore = new UsernamePasswordAuthStore(usernamePasswordConfig);
-    var inMemoryAuthStore = new InMemoryAuthStore(inMemoryStoreConfig);
-    var authRunner = new AuthRunner(usernamePasswordAuthStore, inMemoryAuthStore);
-    return authRunner.getToken();
+    var uPassAuthStore = new usernamePasswordAuthStore.UsernamePasswordAuthStore(usernamePasswordConfig);
+    var inMemAuthStore = new inMemoryAuthStore.InMemoryAuthStore(inMemoryStoreConfig);
+    var runner = new authRunner.AuthRunner(uPassAuthStore, inMemAuthStore);
+    return runner.getToken();
 };

@@ -1,51 +1,36 @@
-let querystring = require('querystring');
-let https = require('https');
+var rp = require('request-promise');
 
-class UsernamePasswordAuthStore {
+import UsernamePasswordAuthConfig = require('./../config/UsernamePasswordAuthConfig');
 
-    private config: UsernamePasswordAuthConfig;
+export class UsernamePasswordAuthStore {
 
-    constructor(config: UsernamePasswordAuthConfig) {
+    private config: UsernamePasswordAuthConfig.UsernamePasswordAuthConfig;
+
+    constructor(config: UsernamePasswordAuthConfig.UsernamePasswordAuthConfig) {
         this.config = config;
 
     }
 
     getToken() {
 
-        let url = new URL(this.config.endpoint);
-
-        // Build the post string from an object
-        var post_data = querystring.stringify({
-            _username: this.config.username,
-            _password: this.config.password
-        });
-
-        // An object of options to indicate where to post to
-        var post_options = {
-            host: url.hostname,
-            port: '443',
-            path: url.pathname,
+        var options = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': Buffer.byteLength(post_data)
+            uri: this.config.endpoint,
+            form: {
+                _username: this.config.username,
+                _password: this.config.password
             }
         };
 
-        let output = '';
-        // Set up the request
-        var post_req = https.request(post_options, function(res: any) {
-            res.setEncoding('utf8');
-            res.on('data', function (chunk: any) {
-                output += chunk;
+        var resp = rp(options)
+            .then(function (body: any) {
+                return body;
+            })
+            .catch(function (err: any) {
+                console.log('error', err);
             });
-        });
 
-        // post the data
-        post_req.write(post_data);
-        post_req.end();
-
-        return output;
+        return resp;
 
     }
 

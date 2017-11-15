@@ -1,17 +1,27 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var AuthRunner = /** @class */ (function () {
     function AuthRunner(usernamePasswordStore, inMemoryStore) {
         this.usernamePasswordStore = usernamePasswordStore;
         this.inMemoryStore = inMemoryStore;
     }
     AuthRunner.prototype.getToken = function () {
-        var token = this.inMemoryStore.getToken();
-        if (token) {
-            return token;
+        var inMemoryStore = this.inMemoryStore;
+        var token = inMemoryStore.getToken();
+        if (typeof token !== "undefined") {
+            token.then(function (resp) {
+                if (typeof resp !== "undefined") {
+                    return resp;
+                }
+            });
         }
         var authtoken = this.usernamePasswordStore.getToken();
-        this.inMemoryStore.setToken(token);
-        return token;
+        authtoken.then(function (resp) {
+            var unamepasstoken = JSON.parse(resp);
+            inMemoryStore.setToken(unamepasstoken.token);
+        });
+        return authtoken;
     };
     return AuthRunner;
 }());
+exports.AuthRunner = AuthRunner;

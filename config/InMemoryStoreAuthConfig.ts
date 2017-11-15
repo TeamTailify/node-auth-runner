@@ -1,15 +1,6 @@
-class InMemoryStoreAuthConfig {
 
-    get endpoint(): string {
-        return this._endpoint;
-    }
-    get port(): number {
-        return this._port;
-    }
 
-    get cacheKey(): string {
-        return this._cacheKey;
-    }
+export class InMemoryStoreAuthConfig {
 
     private _endpoint: string;
     private _port: number;
@@ -23,5 +14,18 @@ class InMemoryStoreAuthConfig {
 
     }
 
+    get endpoint(): string {
+        return this._endpoint;
+    }
+
+    get port(): number {
+        return this._port;
+    }
+
+    get cacheKey(): string {
+        return this._cacheKey;
+    }
+
 
 }
+

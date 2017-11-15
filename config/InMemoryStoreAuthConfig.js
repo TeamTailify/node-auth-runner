@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var InMemoryStoreAuthConfig = /** @class */ (function () {
     function InMemoryStoreAuthConfig(parameters) {
         this._endpoint = parameters.endpoint;
@@ -28,3 +29,4 @@ var InMemoryStoreAuthConfig = /** @class */ (function () {
     });
     return InMemoryStoreAuthConfig;
 }());
+exports.InMemoryStoreAuthConfig = InMemoryStoreAuthConfig;

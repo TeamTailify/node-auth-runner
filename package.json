@@ -1,6 +1,6 @@
 {
   "name": "@tailify/auth-runner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Provides a mechanism for authenticating and caching a bearer token for use with stateless task runners such as AWS lambda functions, preventing the need to re-authenticate against a secure API with every single request",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,8 @@
     "typescript": "^2.5.3"
   },
   "dependencies": {
-    "memcached": "^2.2.2"
+    "memcached-promisify": "^2.0.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   }
 }

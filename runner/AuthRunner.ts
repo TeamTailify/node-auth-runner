@@ -1,9 +1,13 @@
-class AuthRunner {
+import UsernamePasswordAuthStore = require('./../authStore/UsernamePasswordAuthStore');
+import InMemoryAuthStore = require('./../authStore/InMemoryAuthStore');
 
-    private usernamePasswordStore: UsernamePasswordAuthStore;
-    private inMemoryStore: InMemoryAuthStore;
 
-    constructor(usernamePasswordStore: UsernamePasswordAuthStore, inMemoryStore: InMemoryAuthStore) {
+export class AuthRunner {
+
+    private usernamePasswordStore: UsernamePasswordAuthStore.UsernamePasswordAuthStore;
+    private inMemoryStore: InMemoryAuthStore.InMemoryAuthStore;
+
+    constructor(usernamePasswordStore: UsernamePasswordAuthStore.UsernamePasswordAuthStore, inMemoryStore: InMemoryAuthStore.InMemoryAuthStore) {
 
         this.usernamePasswordStore = usernamePasswordStore;
         this.inMemoryStore = inMemoryStore;
@@ -12,17 +16,34 @@ class AuthRunner {
 
     public getToken() {
 
-        let token = this.inMemoryStore.getToken();
+        let inMemoryStore = this.inMemoryStore;
 
-        if(token) {
-            return token;
+        let token = inMemoryStore.getToken();
+
+        if(typeof token !== "undefined") {
+
+            token.then(function (resp: any) {
+
+                if(typeof resp !== "undefined") {
+                    return resp;
+                }
+
+
+            });
+
         }
 
         let authtoken = this.usernamePasswordStore.getToken();
 
-        this.inMemoryStore.setToken(token);
+        authtoken.then(function (resp: any) {
 
-        return token;
+            var unamepasstoken = JSON.parse(resp);
+
+            inMemoryStore.setToken(unamepasstoken.token);
+        });
+
+        return authtoken;
+
 
     }
 

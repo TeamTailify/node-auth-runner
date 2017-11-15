@@ -1,33 +1,28 @@
-let Memcached = require('memcached');
+const Cache = require('memcached-promisify');
 
-class InMemoryAuthStore {
+import InMemoryStoreAuthConfig = require('./../config/InMemoryStoreAuthConfig');
+
+export class InMemoryAuthStore {
 
     private FIFTY_NINE_MINUTES = 3540;
 
-    private config: InMemoryStoreAuthConfig;
+    private config: InMemoryStoreAuthConfig.InMemoryStoreAuthConfig;
 
-    constructor(config: InMemoryStoreAuthConfig) {
+    constructor(config: InMemoryStoreAuthConfig.InMemoryStoreAuthConfig) {
         this.config = config;
     }
 
     getToken() {
 
-        let client = new Memcached(this.config.endpoint + ':' + this.config.port);
+        let client = new Cache(this.config.endpoint + ':' + this.config.port);
 
-        return client.get(this.config.cacheKey, function (err: any, data: object) {
-
-            if(err) {
-                return null;
-            }
-
-            return data.toString();
-        });
+        return client.get(this.config.cacheKey);
 
     }
 
     setToken(token: string) {
 
-        let client = new Memcached(this.config.endpoint + ':' + this.config.port);
+        let client = new Cache(this.config.endpoint + ':' + this.config.port);
 
         client.set(this.config.cacheKey, token, this.FIFTY_NINE_MINUTES);
 

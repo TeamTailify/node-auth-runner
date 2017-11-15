@@ -1,13 +1,18 @@
+import usernamePasswordAuthConf = require('./config/UsernamePasswordAuthConfig');
+import inMemoryAuthConf = require('./config/InMemoryStoreAuthConfig');
+import authRunner = require('./runner/AuthRunner');
+import inMemoryAuthStore = require('./authStore/InMemoryAuthStore');
+import usernamePasswordAuthStore = require('./authStore/UsernamePasswordAuthStore');
 
-exports.getToken = function (usernamePasswordConfig: UsernamePasswordAuthConfig, inMemoryStoreConfig: InMemoryStoreAuthConfig) {
+exports.getToken = function (usernamePasswordConfig: usernamePasswordAuthConf.UsernamePasswordAuthConfig, inMemoryStoreConfig: inMemoryAuthConf.InMemoryStoreAuthConfig) {
 
 
-    let usernamePasswordAuthStore = new UsernamePasswordAuthStore(usernamePasswordConfig);
-    let inMemoryAuthStore = new InMemoryAuthStore(inMemoryStoreConfig);
+    let uPassAuthStore = new usernamePasswordAuthStore.UsernamePasswordAuthStore(usernamePasswordConfig);
+    let inMemAuthStore = new inMemoryAuthStore.InMemoryAuthStore(inMemoryStoreConfig);
 
-    let authRunner = new AuthRunner(usernamePasswordAuthStore, inMemoryAuthStore);
+    let runner = new authRunner.AuthRunner(uPassAuthStore, inMemAuthStore);
 
-    return authRunner.getToken();
+    return runner.getToken();
 
 
 }
